@@ -18,6 +18,7 @@ connection.connect(function(err) {
 function startFunction() {
     inquirer
       .prompt({
+        message: "What would you like to do?",
         type: "list",
         choices: [
           "Add department",
@@ -29,7 +30,6 @@ function startFunction() {
           "Update employee role",
           "Quit"
         ],
-        message: "What would you like to do?",
         name: "option"
       })
       .then(function(result) {
@@ -137,3 +137,35 @@ function addEmployee() {
         });
       });
 };
+
+function viewDepartment() {
+    let viewTable = "SELECT * FROM department";
+    connection.query(viewTable, function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        startFunction();
+    });
+}
+  
+function viewRoles() {
+    let viewTable = "SELECT * FROM role";
+    connection.query(viewTable, function(err, res) {
+      if (err) throw err;
+      console.table(res);
+      startFunction();
+    });
+}
+  
+function viewEmployees() {
+    let viewTable = "SELECT * FROM employee";
+    connection.query(viewTable, function(err, res) {
+      if (err) throw err;
+      console.table(res);
+      startFunction();
+    });
+}
+  
+function quit() {
+    connection.end();
+    process.exit();
+  }
