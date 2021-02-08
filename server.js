@@ -145,7 +145,7 @@ function viewDepartment() {
         console.table(res);
         startFunction();
     });
-}
+};
   
 function viewRoles() {
     let viewTable = "SELECT * FROM role";
@@ -154,7 +154,7 @@ function viewRoles() {
       console.table(res);
       startFunction();
     });
-}
+};
   
 function viewEmployees() {
     let viewTable = "SELECT * FROM employee";
@@ -163,9 +163,32 @@ function viewEmployees() {
       console.table(res);
       startFunction();
     });
-}
+};
   
+function updateEmployee() {
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            message: "Which employee would you like to update?",
+            name: "chosenEmp"
+        },
+        {
+            type: "input",
+            message: "What do you want to update to?",
+            name: "updatedRole"
+        }
+    ])
+    .then(function(response) {
+        connection.query('UPDATE employee SET role_id=? WHERE first_name= ?',[response.updatedRole, response.chosenEmp],function(err, res) {
+            if (err) throw err;
+            console.table(res);
+            startFunction();
+        });
+    });
+};
+
 function quit() {
     connection.end();
     process.exit();
-  }
+};
